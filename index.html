@@ -119,12 +119,13 @@
 <body>
 
   <header>
-    <h2>🌿 Farmer-to-Market</h2>
+    <h1>🌿 Farmer-to-Market</h1>
     <p>Empowering farmers to sell directly</p>
   </header>
 
   <div class="container">
 
+    <!-- Produce Submission -->
     <div class="section">
       <h2>📥 Submit Your Produce</h2>
       <form id="cropForm">
@@ -158,68 +159,9 @@
       </form>
     </div>
 
+    <!-- Produce Listings -->
     <div class="section">
       <h2>🌾 Available Produce</h2>
-<!-- ✅ Add this NEW section BELOW your 'Available Produce' section -->
-
-<div class="section">
-  <h2>🚛 Transport Assistance</h2>
-
-  <form id="transportForm">
-    <label>Crop to Transport:</label>
-    <input type="text" name="crop" required>
-
-    <label>Pickup Location:</label>
-    <input type="text" name="pickup" required>
-
-    <label>Delivery Destination:</label>
-    <input type="text" name="destination" required>
-
-    <label>Preferred Date:</label>
-    <input type="date" name="date" required>
-
-    <label>Contact Info:</label>
-    <input type="text" name="contact" required>
-
-    <button type="submit">Request Transport</button>
-  </form>
-
-  <div id="transportListings" style="margin-top: 20px;">
-    <!-- Transport requests will show up here -->
-  </div>
-</div>
-
-<!-- ✅ Add this to the bottom of your <script> tag -->
-
-<script>
-  // Add to your existing <script> tag (below crop form logic)
-  const transportForm = document.getElementById('transportForm');
-  const transportListings = document.getElementById('transportListings');
-
-  transportForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const data = new FormData(transportForm);
-    const crop = data.get('crop');
-    const pickup = data.get('pickup');
-    const destination = data.get('destination');
-    const date = data.get('date');
-    const contact = data.get('contact');
-
-    const div = document.createElement('div');
-    div.className = 'listing';
-    div.innerHTML = `
-      <strong>Transport Request for ${crop}</strong><br>
-      From: ${pickup}<br>
-      To: ${destination}<br>
-      Date: ${date}<br>
-      Contact: ${contact}
-    `;
-    transportListings.prepend(div);
-
-    transportForm.reset();
-  });
-</script>
       <div id="listings">
         <div class="listing">
           <strong>Potatoes</strong><br>
@@ -236,6 +178,31 @@
           Contact: +91 98765 43210
         </div>
       </div>
+    </div>
+
+    <!-- Transport Assistance Section -->
+    <div class="section">
+      <h2>🚛 Transport Assistance</h2>
+      <form id="transportForm">
+        <label>Crop to Transport:</label>
+        <input type="text" name="crop" required>
+
+        <label>Pickup Location:</label>
+        <input type="text" name="pickup" required>
+
+        <label>Drop Location:</label>
+        <input type="text" name="drop" required>
+
+        <label>Preferred Date:</label>
+        <input type="date" name="date" required>
+
+        <label>Contact Info:</label>
+        <input type="text" name="contact" required>
+
+        <button type="submit">Request Transport</button>
+      </form>
+
+      <div id="transportListings" style="margin-top: 20px;"></div>
     </div>
 
   </div>
@@ -286,8 +253,33 @@
         Contact: ${contact}
       `;
       listings.prepend(div);
-
       form.reset();
+    });
+
+    // Transport Form Logic
+    const transportForm = document.getElementById('transportForm');
+    const transportListings = document.getElementById('transportListings');
+
+    transportForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = new FormData(transportForm);
+      const crop = data.get('crop');
+      const pickup = data.get('pickup');
+      const drop = data.get('drop');
+      const date = data.get('date');
+      const contact = data.get('contact');
+
+      const div = document.createElement('div');
+      div.className = 'listing';
+      div.innerHTML = `
+        <strong>Transport Request for ${crop}</strong><br>
+        From: ${pickup}<br>
+        To: ${drop}<br>
+        Date: ${date}<br>
+        Contact: ${contact}
+      `;
+      transportListings.prepend(div);
+      transportForm.reset();
     });
   </script>
 
