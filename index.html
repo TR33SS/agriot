@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Farmer-to-Market Platform 🌾</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #121212;
+      --card: #1e1e1e;
+      --green: #64dd17;
+      --text: #f1f1f1;
+      --accent: #00c853;
+      --input: #2c2c2c;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: var(--card);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid var(--green);
+    }
+
+    header h1 {
+      margin: 0;
+      color: var(--green);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .section {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0, 200, 83, 0.2);
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    input, select {
+      background: var(--input);
+      color: var(--text);
+    }
+
+    button {
+      background-color: var(--green);
+      color: #000;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--accent);
+    }
+
+    .listing {
+      background: #263238;
+      border-left: 5px solid var(--green);
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+
+    .listing strong {
+      font-size: 1.1em;
+      color: var(--green);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+
+      input, select, button {
+        font-size: 0.95em;
+        padding: 8px;
+      }
+
+      h2 {
+        font-size: 1.2em;
+      }
+
+      header h1 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2>🌿 Farmer-to-Market</h2>
+    <p>Empowering farmers to sell directly</p>
+  </header>
+
+  <div class="container">
+
+    <div class="section">
+      <h2>📥 Submit Your Produce</h2>
+      <form id="cropForm">
+        <label>Crop Name:</label>
+        <select name="crop" id="cropSelect" required>
+          <option value="">Select Crop</option>
+          <option value="Potatoes">Potatoes</option>
+          <option value="Tomatoes">Tomatoes</option>
+        </select>
+
+        <label>Quantity (kg):</label>
+        <input type="number" name="quantity" required>
+
+        <label>Price (₹/kg):</label>
+        <input type="number" name="price" id="priceInput" required>
+
+        <label>Location (Karnataka):</label>
+        <select name="location" id="locationSelect" required>
+          <option value="">Select Location</option>
+          <option value="Bangalore">Bangalore</option>
+          <option value="Mysore">Mysore</option>
+          <option value="Hubli">Hubli</option>
+          <option value="Mangalore">Mangalore</option>
+          <option value="Belgaum">Belgaum</option>
+        </select>
+
+        <label>Contact Info:</label>
+        <input type="text" name="contact" required>
+
+        <button type="submit">Add Listing</button>
+      </form>
+    </div>
+
+    <div class="section">
+      <h2>🌾 Available Produce</h2>
+<!-- ✅ Add this NEW section BELOW your 'Available Produce' section -->
+
+<div class="section">
+  <h2>🚛 Transport Assistance</h2>
+
+  <form id="transportForm">
+    <label>Crop to Transport:</label>
+    <input type="text" name="crop" required>
+
+    <label>Pickup Location:</label>
+    <input type="text" name="pickup" required>
+
+    <label>Delivery Destination:</label>
+    <input type="text" name="destination" required>
+
+    <label>Preferred Date:</label>
+    <input type="date" name="date" required>
+
+    <label>Contact Info:</label>
+    <input type="text" name="contact" required>
+
+    <button type="submit">Request Transport</button>
+  </form>
+
+  <div id="transportListings" style="margin-top: 20px;">
+    <!-- Transport requests will show up here -->
+  </div>
+</div>
+
+<!-- ✅ Add this to the bottom of your <script> tag -->
+
+<script>
+  // Add to your existing <script> tag (below crop form logic)
+  const transportForm = document.getElementById('transportForm');
+  const transportListings = document.getElementById('transportListings');
+
+  transportForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const data = new FormData(transportForm);
+    const crop = data.get('crop');
+    const pickup = data.get('pickup');
+    const destination = data.get('destination');
+    const date = data.get('date');
+    const contact = data.get('contact');
+
+    const div = document.createElement('div');
+    div.className = 'listing';
+    div.innerHTML = `
+      <strong>Transport Request for ${crop}</strong><br>
+      From: ${pickup}<br>
+      To: ${destination}<br>
+      Date: ${date}<br>
+      Contact: ${contact}
+    `;
+    transportListings.prepend(div);
+
+    transportForm.reset();
+  });
+</script>
+      <div id="listings">
+        <div class="listing">
+          <strong>Potatoes</strong><br>
+          Quantity: 500 kg<br>
+          Price: ₹10/kg<br>
+          Location: Meerut, Uttar Pradesh<br>
+          Contact: +91 91234 56789
+        </div>
+        <div class="listing">
+          <strong>Tomatoes</strong><br>
+          Quantity: 300 kg<br>
+          Price: ₹18/kg<br>
+          Location: Nashik, Maharashtra<br>
+          Contact: +91 98765 43210
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const form = document.getElementById('cropForm');
+    const listings = document.getElementById('listings');
+    const cropSelect = document.getElementById('cropSelect');
+    const locationSelect = document.getElementById('locationSelect');
+    const priceInput = document.getElementById('priceInput');
+
+    const prices = {
+      Bangalore: { Potatoes: 15, Tomatoes: 20 },
+      Mysore: { Potatoes: 14, Tomatoes: 18 },
+      Hubli: { Potatoes: 13, Tomatoes: 17 },
+      Mangalore: { Potatoes: 16, Tomatoes: 21 },
+      Belgaum: { Potatoes: 12, Tomatoes: 19 }
+    };
+
+    function updatePrice() {
+      const location = locationSelect.value;
+      const crop = cropSelect.value;
+      if (location && crop && prices[location]) {
+        priceInput.value = prices[location][crop] || '';
+      }
+    }
+
+    locationSelect.addEventListener('change', updatePrice);
+    cropSelect.addEventListener('change', updatePrice);
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const data = new FormData(form);
+      const crop = data.get('crop');
+      const quantity = data.get('quantity');
+      const price = data.get('price');
+      const location = data.get('location');
+      const contact = data.get('contact');
+
+      const div = document.createElement('div');
+      div.className = 'listing';
+      div.innerHTML = `
+        <strong>${crop}</strong><br>
+        Quantity: ${quantity} kg<br>
+        Price: ₹${price}/kg<br>
+        Location: ${location}<br>
+        Contact: ${contact}
+      `;
+      listings.prepend(div);
+
+      form.reset();
+    });
+  </script>
+
+</body>
+</html>
